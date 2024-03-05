@@ -22,8 +22,9 @@ function say(response, message) {
 }
 
 function checkUrlAvailability(botResponse, text_received) {
-  let sender_name = botResponse.userProfile.name;
+  let sender_name = botResponse;
   let sender_id = botResponse.userProfile.id;
+  console.log(botResponse);
 
   say(botResponse, "One second...Let me check!");
 
@@ -72,43 +73,19 @@ function checkUrlAvailability(botResponse, text_received) {
       ],
     };
     message = new RichMediaMessage(SAMPLE_RICH_MEDIA);
-  } else if (text_received === "keyboard") {
-    // ================================
-    // Keyboard Message object
-    // ================================
-    const SAMPLE_KEYBOARD = {
-      Type: "keyboard",
-      Revision: 1,
-      Buttons: [
-        {
-          Columns: 3,
-          Rows: 2,
-          BgColor: "#e6f5ff",
-          BgMedia:
-            "http://www.jqueryscript.net/images/Simplest-Responsive-jQuery-Image-Lightbox-Plugin-simple-lightbox.jpg",
-          BgMediaType: "picture",
-          BgLoop: true,
-          ActionType: "reply",
-          ActionBody: "Yes",
-        },
-      ],
-    };
-    message = new KeyboardMessage(SAMPLE_KEYBOARD);
-  } else {
-    message = new TextMessage("Hi!" + sender_name + " (" + sender_id + ")");
   }
 
-  console.log(message);
   botResponse.send(message);
 }
 
 const bot = new ViberBot({
   authToken: process.env.ACCESS_TOKEN,
-  name: "Viber Bot",
+  name: "Dendo",
   avatar: "https://developers.viber.com/docs/img/stickers/40122.png", // It is recommended to be 720x720, and no more than 100kb.
 });
 
 // The user will get those messages on first registration
+
 bot.onSubscribe((response) => {
   say(
     response,
