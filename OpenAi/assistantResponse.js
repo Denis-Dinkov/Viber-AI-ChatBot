@@ -8,7 +8,7 @@ async function assistantResponse(botResponse, text_received, say) {
   messages.push({ role: "user", content: text_received });
 
   const timeoutId = setTimeout(() => {
-    say(botResponse, "One second...Let me check!");
+    say(botResponse, "Моля изчакайте, асистентът отговаря! 🤖");
   }, 1000);
 
   try {
@@ -19,13 +19,15 @@ async function assistantResponse(botResponse, text_received, say) {
 
     let message = response.choices[0].message.content;
     botResponse.send(new TextMessage(message));
-
     messages.push({ role: "assistant", content: message });
   } catch (error) {
     console.error("An error occurred:", error);
-    say(botResponse, "Sorry, I couldn't process your request.");
+    say(
+      botResponse,
+      "Не успях да обработя вашето съобщение, моля опитайте отново или се свържете с админ! 😓"
+    );
   } finally {
-    clearTimeout(timeoutId); // clear the timeout always
+    clearTimeout(timeoutId);
   }
 }
 
