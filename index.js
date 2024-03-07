@@ -1,28 +1,30 @@
 require("dotenv").config();
 const ngrok = require("./get_public_url");
 const bot = require("./ViberBot/botConfig");
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const routes = require("./Routes/routes");
+
+mongoose.connect(process.env.DATABASE_URL);
+const db = mongoose.connection;
+db.on("error", (err) => console.error(err));
+db.once("open", () => console.log("Connected to database"));
 
 if (process.env.NOW_URL || process.env.HEROKU_URL) {
-  const http = require("http");
   const port = process.env.PORT || 5000;
 
-  http
-    .createServer(bot.middleware())
-    .listen(port, () =>
-      bot.setWebhook(process.env.NOW_URL || process.env.HEROKU_URL)
-    );
+  app.use(bot.middleware());
+  app.listen(port, () =>
+    bot.setWebhook(process.env.NOW_URL || process.env.HEROKU_URL)
+  );
 } else {
   return ngrok
     .getPublicUrl()
     .then((publicUrl) => {
-      const http = require("http");
       const port = process.env.PORT || 5000;
-
-      console.log("publicUrl => ", publicUrl);
-
-      http
-        .createServer(bot.middleware())
-        .listen(port, () => bot.setWebhook(publicUrl));
+      app.use(bot.middleware());
+      app.listen(port, () => bot.setWebhook(publicUrl));
     })
     .catch((error) => {
       console.log("Can not connect to ngrok server. Is it running?");
@@ -30,3 +32,6 @@ if (process.env.NOW_URL || process.env.HEROKU_URL) {
       process.exit(1);
     });
 }
+
+app.use(express.json());
+app.use("/data", routes);
