@@ -1,22 +1,13 @@
-const User = require('../models/User');
-const bcrypt = require('bcrypt');
+const User = require('../models/user');
 
-const createUser = async (data) => {
-  data.password = await bcrypt.hash(data.password, 10);
-  const user = new User(data);
-  return await user.save();
-};
-
-const authenticateUser = async (email, password) => {
-  const user = await User.findOne({ email: email });
-  if (user && await bcrypt.compare(password, user.password)) {
-    return user;
-  } else {
-    return null;
-  }
-};
+const getUsers = async (id) => {
+  if(!id) return [];
+  const user = await User.find({ uid: id });
+  if(user.length === 0) return [];
+  if(user.isAdmin === false) return [];
+  return await User.find();
+}
 
 module.exports = {
-  createUser,
-  authenticateUser,
-};
+  getUsers
+}

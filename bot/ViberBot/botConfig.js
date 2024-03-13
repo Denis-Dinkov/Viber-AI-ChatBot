@@ -35,7 +35,9 @@ bot.on(BotEvents.MESSAGE_RECEIVED, (message, response) => {
   }
 });
 
-bot.onTextMessage(/./, (message, response) => {
+bot.onTextMessage(/./, async (message, response) => {
+  const { id: uid, name, avatar } = response.userProfile;
+
   botResponse(response, message.text);
 });
 
