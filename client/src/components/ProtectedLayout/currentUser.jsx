@@ -3,7 +3,7 @@ import { useState } from "react";
 import { SettingOutlined } from "@ant-design/icons";
 import { Button, Popover, Avatar, Typography } from "antd";
 import AccountSettings from "./AccountSetting";
-const { Text, Link } = Typography;
+const { Text } = Typography;
 
 const CurrentUser = () => {
   const [opened, setOpened] = useState(false);

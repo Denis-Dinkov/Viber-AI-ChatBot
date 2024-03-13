@@ -10,7 +10,7 @@ const Dashboard = () => {
           <ViberQrCodeCard />
         </Col>
         <Col xs={24} sm={24} xl={8}>
-          <BotUsersCard />
+          <BotUsersCard resource="contacts" isLoading={false} totalCount={40} />
         </Col>
         <Col xs={24} sm={24} xl={8}>
           <h1>Dashboard</h1>
