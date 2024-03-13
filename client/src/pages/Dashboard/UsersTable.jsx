@@ -79,8 +79,7 @@ const UsersTable = () => {
           padding: "8px 8px 8px 12px",
         },
       }}
-      size="small"
-      style={{ height: "96px", padding: 0 }}
+      size=""
     >
       <Table columns={columns} dataSource={data} />
     </Card>
