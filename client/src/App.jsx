@@ -1,16 +1,14 @@
-import React from "react";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
-const { Header, Content, Footer } = Layout;
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import ProtectedLayout from "./components/ProtectedLayout";
 
-const items = new Array(15).fill(null).map((_, index) => ({
-  key: index + 1,
-  label: `nav ${index + 1}`,
-}));
 const App = () => {
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
-  return <ProtectedLayout>asdasdad</ProtectedLayout>;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<ProtectedLayout />} />
+        {/* <Route path="*" element={<Navigate to="/app" />} /> */}
+      </Routes>
+    </BrowserRouter>
+  );
 };
 export default App;

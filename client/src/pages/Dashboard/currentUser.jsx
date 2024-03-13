@@ -1,9 +1,8 @@
 import React from "react";
 
 import { SettingOutlined } from "@ant-design/icons";
-import { Button, Popover, Avatar } from "antd";
-// import { AccountSettings } from "../account-settings";
-import { UserOutlined } from "@ant-design/icons";
+import { Button, Popover, Avatar, Typography } from "antd";
+const { Text, Link } = Typography;
 
 export const CurrentUser = () => {
   const [opened, setOpened] = React.useState(false);
@@ -15,14 +14,14 @@ export const CurrentUser = () => {
         flexDirection: "column",
       }}
     >
-      <p
+      <Text
+        strong
         style={{
-          padding: "8px 12px",
-          fontWeight: "bold",
+          padding: "12px 20px",
         }}
       >
-        Gosho
-      </p>
+        Text
+      </Text>
       <div
         style={{
           borderTop: "1px solid #d9d9d9",

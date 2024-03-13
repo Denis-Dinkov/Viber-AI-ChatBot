@@ -3,6 +3,7 @@ import { Layout, theme } from "antd";
 const { Content } = Layout;
 import SiderComponent from "./sider";
 import HeaderComponent from "./header";
+import Dashboard from "../../pages/Dashboard/index.jsx";
 
 const App = () => {
   const {
@@ -22,7 +23,7 @@ const App = () => {
             borderRadius: borderRadiusLG,
           }}
         >
-          Content
+          <Dashboard />
         </Content>
       </Layout>
     </Layout>
