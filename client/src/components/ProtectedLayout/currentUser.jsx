@@ -1,11 +1,12 @@
-import React from "react";
+import { useState } from "react";
 
 import { SettingOutlined } from "@ant-design/icons";
 import { Button, Popover, Avatar, Typography } from "antd";
-const { Text, Link } = Typography;
+import AccountSettings from "./AccountSetting";
+const { Text } = Typography;
 
-export const CurrentUser = () => {
-  const [opened, setOpened] = React.useState(false);
+const CurrentUser = () => {
+  const [opened, setOpened] = useState(false);
 
   const content = (
     <div
@@ -59,13 +60,9 @@ export const CurrentUser = () => {
           style={{ cursor: "pointer" }}
         />
       </Popover>
-      {/* {user && (
-        <AccountSettings
-          opened={opened}
-          setOpened={setOpened}
-          userId={user.id}
-        />
-      )} */}
+      <AccountSettings opened={opened} setOpened={setOpened} />
     </>
   );
 };
+
+export default CurrentUser;

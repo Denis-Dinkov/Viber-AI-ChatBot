@@ -2,9 +2,9 @@ import { useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 
 import { Layout, Button, theme } from "antd";
+import CurrentUser from "./currentUser";
 const { Header } = Layout;
 
-import { CurrentUser } from "../currentUser";
 const HeaderComponent = () => {
   const [collapsed, setCollapsed] = useState(false);
 
