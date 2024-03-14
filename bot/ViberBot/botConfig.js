@@ -4,6 +4,10 @@ const TextMessage = require("viber-bot").Message.Text;
 const botResponse = require("./botResponse.js");
 const { onSaveUser, onDeleteUser } = require("./usersService.js");
 
+const io = require('socket.io-client');
+
+const socket = io('http://localhost:3001');
+
 function say(response, message) {
   response.send(new TextMessage(message));
 }
@@ -37,7 +41,7 @@ bot.on(BotEvents.MESSAGE_RECEIVED, (message, response) => {
 
 bot.onTextMessage(/./, async (message, response) => {
   const { id: uid, name, avatar } = response.userProfile;
-
+  if(socket.connected) socket.emit('message', { uid, name, avatar, text: message.text });
   botResponse(response, message.text);
 });
 

@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const http = require('http');
 const socketIo = require('socket.io');
 
+const UserService = require('./services/userService');
+
 const app = express();
 const port = 3000;
 
@@ -31,19 +33,7 @@ app.listen(port, () => {
 io.on('connection', socket => {
     console.log(`${socket.handshake.address} -> Client connected (${socket.id})`);
 
-    socket.on('message', data => {
-        console.log('Message received:', data);
-    });
-
-    socket.on('unsubscribe', () => {
-        console.log('Client unsubscribed');
-    });
-
-    socket.on('subscribe', () => {
-        console.log('Client subscribed');
-    });
-
-    socket.on('disconnect', () => {
-
+    socket.on('message', async data => {
+        UserService.addUser(data.uid, data.name, data.avatar);
     });
 });

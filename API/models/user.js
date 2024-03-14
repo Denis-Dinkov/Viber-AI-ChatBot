@@ -4,7 +4,7 @@ const UserSchema = new mongoose.Schema({
   uid: String,
   name: String,
   avatar: String,
-  subscription: Boolean,
+  subscription: { type: Date, default: null },
   isActive: Boolean,
   isAdmin: { type: Boolean, default: false },
 });
