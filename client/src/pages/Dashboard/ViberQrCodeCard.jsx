@@ -1,18 +1,16 @@
-import { Card, Typography, Statistic, QRCode } from "antd";
 import { AuditOutlined, ShopOutlined, TeamOutlined } from "@ant-design/icons";
+import { Card, Skeleton, Typography, QRCode } from "antd";
 
-const { Title, Paragraph, Text, Link } = Typography;
+const { Text, Title } = Typography;
 
-const ViberQrCodeCard = () => {
+const ViberQrCodeCard = ({ resource, isLoading, totalCount }) => {
   return (
     <Card
-      styles={{
-        body: {
-          padding: "8px 8px 8px 12px",
-        },
+      style={{ height: "96px", padding: 0 }}
+      bodyStyle={{
+        padding: "8px 8px 8px 12px",
       }}
       size="small"
-      style={{ height: "96px", padding: 0 }}
     >
       <div
         style={{
@@ -22,12 +20,32 @@ const ViberQrCodeCard = () => {
           whiteSpace: "nowrap",
         }}
       >
-        <TeamOutlined />
-        <Text strong className="secondary" style={{ marginLeft: "8px" }}>
-          Users
+        <AuditOutlined />
+        <Text level={5} style={{ marginLeft: "8px" }}>
+          Viber Bot
         </Text>
       </div>
-      <QRCode value={"https://www.google.com/" || "-"} size={64} />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <Title
+          level={2}
+          strong
+          style={{
+            flex: 1,
+            whiteSpace: "nowrap",
+            flexShrink: 0,
+            textAlign: "start",
+            fontVariantNumeric: "tabular-nums",
+          }}
+        >
+          Bot Qr
+        </Title>
+        <QRCode value="https://ant.design/" size={80} />
+      </div>
     </Card>
   );
 };

@@ -5,12 +5,12 @@ import { Layout, Button, theme } from "antd";
 import CurrentUser from "./currentUser";
 const { Header } = Layout;
 
-const HeaderComponent = () => {
+const HeaderComponent = ({ toggleTheme }) => {
   const [collapsed, setCollapsed] = useState(false);
-
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
   return (
     <Header
       style={{
@@ -25,6 +25,11 @@ const HeaderComponent = () => {
         zIndex: 999,
       }}
     >
+      <Button
+        type="text"
+        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+        onClick={() => toggleTheme()}
+      />
       <CurrentUser />
     </Header>
   );

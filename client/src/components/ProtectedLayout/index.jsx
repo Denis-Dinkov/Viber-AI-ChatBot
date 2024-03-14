@@ -1,32 +1,44 @@
-import { Layout, theme } from "antd";
+import { Layout, theme, ConfigProvider } from "antd";
 
 const { Content } = Layout;
 import SiderComponent from "./sider";
 import HeaderComponent from "./header";
-import Dashboard from "../../pages/Dashboard/index.jsx";
+import useTheme from "../../hooks/useTheme.jsx";
+import { useEffect } from "react";
 
-const App = () => {
+const ProtectedLayout = ({ children }) => {
+  const [currentTheme, toggleTheme] = useTheme();
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   return (
-    <Layout style={{ height: "100vh" }}>
-      <SiderComponent />
-      <Layout>
-        <HeaderComponent />
-        <Content
-          style={{
-            margin: "24px 16px",
-            padding: 24,
-            minHeight: 280,
-            background: colorBgContainer,
-            borderRadius: borderRadiusLG,
-          }}
-        >
-          <Dashboard />
-        </Content>
+    <ConfigProvider
+      theme={{
+        algorithm:
+          currentTheme === "dark"
+            ? theme.darkAlgorithm
+            : theme.defaultAlgorithm,
+      }}
+    >
+      <Layout style={{ height: "100vh" }}>
+        <SiderComponent />
+        <Layout>
+          <HeaderComponent toggleTheme={toggleTheme} />
+          <Content
+            style={{
+              margin: "24px 16px",
+              padding: 24,
+              minHeight: 280,
+              background: colorBgContainer,
+              borderRadius: borderRadiusLG,
+            }}
+          >
+            {children}
+          </Content>
+        </Layout>
       </Layout>
-    </Layout>
+    </ConfigProvider>
   );
 };
-export default App;
+export default ProtectedLayout;

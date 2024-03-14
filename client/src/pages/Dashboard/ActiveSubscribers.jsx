@@ -5,7 +5,7 @@ import IconWrapper from "../../components/IconWrapper";
 
 const { Text, Title } = Typography;
 
-const BotUsersCard = ({ resource, isLoading, totalCount }) => {
+const ActiveSubscribers = ({ resource, isLoading, totalCount }) => {
   const { primaryColor, secondaryColor, icon, title } = variants[resource];
 
   const config = {
@@ -48,8 +48,10 @@ const BotUsersCard = ({ resource, isLoading, totalCount }) => {
   return (
     <Card
       style={{ height: "96px", padding: 0 }}
-      bodyStyle={{
-        padding: "8px 8px 8px 12px",
+      styles={{
+        body: {
+          padding: "8px 8px 8px 12px",
+        },
       }}
       size="small"
     >
@@ -236,4 +238,4 @@ const variants = {
   },
 };
 
-export default BotUsersCard;
+export default ActiveSubscribers;
