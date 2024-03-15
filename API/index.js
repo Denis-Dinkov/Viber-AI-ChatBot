@@ -4,6 +4,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const http = require('http');
 const socketIo = require('socket.io');
+const cors = require('cors');
 
 const UserService = require('./services/userService');
 
@@ -15,6 +16,7 @@ const io = socketIo(server);
 
 mongoose.connect('mongodb://localhost:27017/viberBot');
 
+app.use(cors()); // Use cors middleware
 app.use(express.urlencoded({ extended: true }));
 
 fs.readdirSync(path.join(__dirname, 'routes')).forEach(file => {
