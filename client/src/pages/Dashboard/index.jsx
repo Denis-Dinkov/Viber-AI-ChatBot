@@ -1,24 +1,27 @@
 import { Col, Row } from "antd";
-import BotUsersCard from "./BotUsersCard";
-import ViberQrCodeCard from "./ViberQrCodeCard";
 import UsersTable from "./UsersTable";
-import ActiveSubscribers from "./ActiveSubscribers";
+
+import DashboardCard from "./DashboardCard";
 const Dashboard = () => {
   return (
     <>
       <Row gutter={[32, 32]}>
         <Col xs={24} sm={24} xl={8}>
-          <ViberQrCodeCard />
-        </Col>
-        <Col xs={24} sm={24} xl={8}>
-          <BotUsersCard resource="contacts" isLoading={false} totalCount={40} />
-        </Col>
-        <Col xs={24} sm={24} xl={8}>
-          <ActiveSubscribers
-            resource="deals"
+          <DashboardCard
+            resource="contacts"
             isLoading={false}
             totalCount={40}
           />
+        </Col>
+        <Col xs={24} sm={24} xl={8}>
+          <DashboardCard
+            resource="contacts"
+            isLoading={false}
+            totalCount={40}
+          />
+        </Col>
+        <Col xs={24} sm={24} xl={8}>
+          <DashboardCard resource="deals" isLoading={false} totalCount={40} />
         </Col>
       </Row>
       <Row

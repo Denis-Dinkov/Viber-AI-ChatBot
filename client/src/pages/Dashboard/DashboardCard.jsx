@@ -5,7 +5,7 @@ import IconWrapper from "../../components/IconWrapper";
 
 const { Text, Title } = Typography;
 
-const ActiveSubscribers = ({ resource, isLoading, totalCount }) => {
+const DashboardCard = ({ resource, isLoading, totalCount }) => {
   const { primaryColor, secondaryColor, icon, title } = variants[resource];
 
   const config = {
@@ -238,4 +238,4 @@ const variants = {
   },
 };
 
-export default ActiveSubscribers;
+export default DashboardCard;

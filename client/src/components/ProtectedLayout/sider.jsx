@@ -17,31 +17,25 @@ function getItem(label, key, icon, children) {
   };
 }
 const items = [
-  getItem("Option 1", "1", <PieChartOutlined />),
-  getItem("Option 2", "2", <DesktopOutlined />),
-  getItem("User", "sub1", <UserOutlined />, [
-    getItem("Tom", "3"),
-    getItem("Bill", "4"),
-    getItem("Alex", "5"),
-  ]),
-  getItem("Team", "sub2", <TeamOutlined />, [
-    getItem("Team 1", "6"),
-    getItem("Team 2", "8"),
-  ]),
-  getItem("Files", "9", <FileOutlined />),
+  getItem("Dashboard", "1", <PieChartOutlined />),
+  getItem("Message", "2", <DesktopOutlined />),
 ];
 
 const SiderComponent = () => {
-  const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
   return (
     <Sider
-      collapsible
-      collapsed={collapsed}
-      onCollapse={(value) => setCollapsed(value)}
+      breakpoint="lg"
+      collapsedWidth="0"
+      onBreakpoint={(broken) => {
+        console.log(broken);
+      }}
+      onCollapse={(collapsed, type) => {
+        console.log(collapsed, type);
+      }}
     >
       <div
         className="demo-logo-vertical"
@@ -58,7 +52,7 @@ const SiderComponent = () => {
           style={{
             color: "white",
             marginLeft: "8px",
-            display: collapsed ? "none" : "block",
+            // display: collapsed ? "none" : "block",
           }}
         >
           Logo

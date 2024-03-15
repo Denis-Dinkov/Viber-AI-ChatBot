@@ -6,7 +6,7 @@ import CurrentUser from "./currentUser";
 const { Header } = Layout;
 
 const HeaderComponent = ({ toggleTheme }) => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();

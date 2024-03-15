@@ -1,77 +1,58 @@
-import { Space, Table, Tag, Card } from "antd";
+import { Space, Table, Tag, Card, Avatar } from "antd";
+import { useEffect, useState } from "react";
 const columns = [
+  {
+    title: "Avatar",
+    dataIndex: "avatar",
+    key: "avatar",
+    render: (avatar) => <Avatar size={32} src={avatar} />,
+  },
+
   {
     title: "Name",
     dataIndex: "name",
     key: "name",
-    render: (text) => <a>{text}</a>,
   },
   {
-    title: "Age",
-    dataIndex: "age",
-    key: "age",
+    title: "subscription",
+    dataIndex: "subscription",
+    key: "subscription",
   },
   {
-    title: "Address",
-    dataIndex: "address",
-    key: "address",
-  },
-  {
-    title: "Tags",
-    key: "tags",
-    dataIndex: "tags",
-    render: (_, { tags }) => (
-      <>
-        {tags.map((tag) => {
-          let color = tag.length > 5 ? "geekblue" : "green";
-          if (tag === "loser") {
-            color = "volcano";
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
-  },
-  {
-    title: "Action",
-    key: "action",
-    render: (_, record) => (
-      <Space size="middle">
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
-      </Space>
-    ),
+    title: "status",
+    dataIndex: "status",
+    key: "status",
   },
 ];
 const data = [
   {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "1 year subscription", "teacher"],
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"],
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sydney No. 1 Lake Park",
-    tags: ["cool", "teacher"],
+    _id: {
+      $oid: "65f4116c48552e05e3fade55",
+    },
+    uid: "vGBp+n/o9uOEB0up7+KK2A==",
+    name: "Daniel Valchev",
+    avatar: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+    subscription: "premium",
+    isActive: true,
+    isAdmin: false,
+    __v: 0,
   },
 ];
-
 const UsersTable = () => {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await fetch(
+        "http://localhost:3000/users?id=poxPTw8qu2TPGXlbK8aFUw=="
+      );
+      const data = await response.json();
+      setUsers(data);
+    };
+    fetchUsers();
+  }, []);
+
+  console.log(users);
   return (
     <Card
       styles={{
