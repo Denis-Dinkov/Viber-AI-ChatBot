@@ -1,11 +1,11 @@
-import { Space, Table, Tag, Card, Avatar } from "antd";
+import { Table, Tag, Card, Avatar } from "antd";
 import { useEffect, useState } from "react";
 const columns = [
   {
-    title: "Avatar",
     dataIndex: "avatar",
     key: "avatar",
-    render: (avatar) => <Avatar size={32} src={avatar} />,
+    render: (avatar) => <Avatar size={36} src={avatar} />,
+    width: "40px",
   },
 
   {
@@ -14,9 +14,17 @@ const columns = [
     key: "name",
   },
   {
-    title: "subscription",
+    title: "Subscriptions",
     dataIndex: "subscription",
     key: "subscription",
+    render: (subscription) => {
+      let color = subscription === "Free" ? "green" : "geekblue";
+      return (
+        <Tag color={color} key={subscription}>
+          {subscription}
+        </Tag>
+      );
+    },
   },
   {
     title: "status",
@@ -24,20 +32,7 @@ const columns = [
     key: "status",
   },
 ];
-const data = [
-  {
-    _id: {
-      $oid: "65f4116c48552e05e3fade55",
-    },
-    uid: "vGBp+n/o9uOEB0up7+KK2A==",
-    name: "Daniel Valchev",
-    avatar: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-    subscription: "premium",
-    isActive: true,
-    isAdmin: false,
-    __v: 0,
-  },
-];
+
 const UsersTable = () => {
   const [users, setUsers] = useState([]);
 
@@ -46,8 +41,20 @@ const UsersTable = () => {
       const response = await fetch(
         "http://localhost:3000/users?id=poxPTw8qu2TPGXlbK8aFUw=="
       );
-      const data = await response.json();
-      setUsers(data);
+      const res = await response.json();
+      const users = res.map((user) => {
+        return {
+          key: user.id,
+          avatar: user.avatar,
+          name: user.name,
+          subscription: user.subscription
+            ? new Date(user.subscription).toLocaleString()
+            : "Free",
+          status: user.status,
+        };
+      });
+
+      setUsers(users);
     };
     fetchUsers();
   }, []);
@@ -60,9 +67,8 @@ const UsersTable = () => {
           padding: "8px 8px 8px 12px",
         },
       }}
-      size=""
     >
-      <Table columns={columns} dataSource={data} />
+      <Table columns={columns} dataSource={users} />
     </Card>
   );
 };

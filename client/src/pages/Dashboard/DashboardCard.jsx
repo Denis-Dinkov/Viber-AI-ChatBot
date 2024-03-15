@@ -100,7 +100,8 @@ const DashboardCard = ({ resource, isLoading, totalCount }) => {
         <Area
           {...config}
           style={{
-            width: "50%",
+            height: "53px",
+            width: "70%",
           }}
         />
       </div>

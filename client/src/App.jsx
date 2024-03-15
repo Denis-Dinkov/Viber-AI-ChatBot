@@ -1,22 +1,36 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProtectedLayout from "./components/ProtectedLayout";
 import Dashboard from "./pages/Dashboard";
+import useTheme from "./hooks/useTheme";
+
+import { Layout, theme, ConfigProvider } from "antd";
 
 const App = () => {
+  const [currentTheme, toggleTheme] = useTheme();
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <ProtectedLayout>
-              <Dashboard />
-            </ProtectedLayout>
-          }
-        />
-        {/* <Route path="*" element={<Navigate to="/app" />} /> */}
-      </Routes>
-    </BrowserRouter>
+    <ConfigProvider
+      theme={{
+        algorithm:
+          currentTheme === "dark"
+            ? theme.darkAlgorithm
+            : theme.defaultAlgorithm,
+      }}
+    >
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <ProtectedLayout toggleTheme={toggleTheme}>
+                <Dashboard />
+              </ProtectedLayout>
+            }
+          />
+          {/* <Route path="*" element={<Navigate to="/app" />} /> */}
+        </Routes>
+      </BrowserRouter>
+    </ConfigProvider>
   );
 };
 export default App;

@@ -36,6 +36,12 @@ io.on("connection", (socket) => {
   console.log(`${socket.handshake.address} -> Client connected (${socket.id})`);
 
   socket.on("message", async (data) => {
+    if (data.text === "subscribe") {
+      UserService.setSubscribeStatus(data.uid, true);
+    } else if (data.text === "unsubscribe") {
+      UserService.setSubscribeStatus(data.uid, false);
+    }
+
     UserService.addUser(data.uid, data.name, data.avatar);
   });
 });
