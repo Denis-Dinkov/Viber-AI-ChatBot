@@ -1,3 +1,5 @@
+require("dotenv").config();
+const { PORT } = process.env;
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
@@ -5,11 +7,7 @@ const mongoose = require("mongoose");
 const http = require("http");
 const socketIo = require("socket.io");
 const cors = require("cors");
-
-const UserService = require("./services/userService");
-
 const app = express();
-const port = 3000;
 
 const server = http.createServer(app);
 const io = socketIo(server);
@@ -25,10 +23,10 @@ fs.readdirSync(path.join(__dirname, "routes")).forEach((file) => {
   app.use(routePath, route);
 });
 
-app.listen(port, () => {
-  console.log(`REST API server listening at http://localhost:${port}`);
-  server.listen(port + 1, () => {
-    console.log(`Socket io server listening at http://localhost:${port + 1}`);
+app.listen(PORT, () => {
+  console.log(`REST API server listening at http://localhost:${PORT}`);
+  server.listen(PORT + 1, () => {
+    console.log(`Socket io server listening at http://localhost:${PORT + 1}`);
   });
 });
 
