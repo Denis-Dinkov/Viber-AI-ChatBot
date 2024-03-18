@@ -1,4 +1,4 @@
-import { Layout, theme, ConfigProvider } from "antd";
+import { Layout, theme } from "antd";
 
 const { Content } = Layout;
 import SiderComponent from "./sider";

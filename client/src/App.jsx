@@ -3,7 +3,7 @@ import ProtectedLayout from "./components/ProtectedLayout";
 import Dashboard from "./pages/Dashboard";
 import useTheme from "./hooks/useTheme";
 
-import { Layout, theme, ConfigProvider } from "antd";
+import { theme, ConfigProvider } from "antd";
 
 const App = () => {
   const [currentTheme, toggleTheme] = useTheme();

@@ -4,7 +4,7 @@ const columns = [
   {
     dataIndex: "avatar",
     key: "avatar",
-    render: (avatar) => <Avatar size={36} src={avatar} />,
+    render: (avatar) => <Avatar size={36} src={avatar} key={Math.random()} />,
     width: "40px",
   },
 
@@ -27,7 +27,7 @@ const columns = [
     },
   },
   {
-    title: "status",
+    title: "Status",
     dataIndex: "status",
     key: "status",
   },
@@ -44,13 +44,13 @@ const UsersTable = () => {
       const res = await response.json();
       const users = res.map((user) => {
         return {
-          key: user.id,
+          key: user._id,
           avatar: user.avatar,
           name: user.name,
           subscription: user.subscription
             ? new Date(user.subscription).toLocaleString()
             : "Free",
-          status: user.status,
+          status: user.status ? "Active" : "Inactive",
         };
       });
 
@@ -59,7 +59,6 @@ const UsersTable = () => {
     fetchUsers();
   }, []);
 
-  console.log(users);
   return (
     <Card
       styles={{

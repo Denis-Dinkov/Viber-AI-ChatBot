@@ -44,4 +44,12 @@ io.on("connection", (socket) => {
 
     UserService.addUser(data.uid, data.name, data.avatar);
   });
+
+  socket.on("unsubscribe", async (userId) => {
+    UserService.changeUserStatus(userId, false);
+  });
+
+  socket.on("subscribe", async (userId) => {
+    UserService.changeUserStatus(userId, true);
+  });
 });

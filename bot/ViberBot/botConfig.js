@@ -2,11 +2,10 @@ const ViberBot = require("viber-bot").Bot;
 const BotEvents = require("viber-bot").Events;
 const TextMessage = require("viber-bot").Message.Text;
 const botResponse = require("./botResponse.js");
-const { onSaveUser, onDeleteUser } = require("./usersService.js");
 
-const io = require('socket.io-client');
+const io = require("socket.io-client");
 
-const socket = io('http://localhost:3001');
+const socket = io("http://localhost:3001");
 
 function say(response, message) {
   response.send(new TextMessage(message));
@@ -24,14 +23,29 @@ bot.onConversationStarted((userProfile, isSubscribed, context, onFinish) => {
 });
 
 bot.onSubscribe((response) => {
-  onSaveUser(response);
+  if (socket.connected) {
+    try {
+      socket.emit("subscribe", response.userProfile.id);
+      console.log(`Subscribed: ${response.userProfile.id}`);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   say(
     response,
     `Hi there ${response.userProfile.name}. I am ${bot.name}! Feel free to ask me if a web site is down for everyone or just you. Just send me a name of a website and I'll do the rest!`
   );
 });
 
-bot.onUnsubscribe((userId) => console.log(`Unsubscribed: ${userId}`));
+bot.onUnsubscribe((userId) => {
+  try {
+    console.log(`Unsubscribed: ${userId}`);
+    if (socket.connected) socket.emit("unsubscribe", userId);
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 bot.on(BotEvents.MESSAGE_RECEIVED, (message, response) => {
   if (!(message instanceof TextMessage)) {
@@ -41,7 +55,10 @@ bot.on(BotEvents.MESSAGE_RECEIVED, (message, response) => {
 
 bot.onTextMessage(/./, async (message, response) => {
   const { id: uid, name, avatar } = response.userProfile;
-  if(socket.connected) socket.emit('message', { uid, name, avatar, text: message.text });
+  if (socket.connected) {
+    socket.emit("message", { uid, name, avatar, text: message.text });
+  }
+
   botResponse(response, message.text);
 });
 

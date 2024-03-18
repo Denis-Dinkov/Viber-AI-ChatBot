@@ -9,7 +9,8 @@ async function botResponse(botResponse, text_received) {
   let sender_name = botResponse;
   let sender_id = botResponse.userProfile.id;
 
-  assistantResponse(botResponse, text_received, say);
+  // assistantResponse(botResponse, text_received, say);
+  say(botResponse, "Hello");
 }
 
 module.exports = botResponse;
