@@ -3,6 +3,7 @@ import ProtectedLayout from "./components/ProtectedLayout";
 import Dashboard from "./pages/Dashboard";
 import useTheme from "./hooks/useTheme";
 import Plans from "./pages/Plans";
+import Success from "./pages/Success";
 import { theme, ConfigProvider } from "antd";
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
             }
           />
           <Route path="/plans" element={<Plans />} />
+          <Route path="/success" element={<Success />} />
           {/* <Route path="*" element={<Navigate to="/app" />} /> */}
         </Routes>
       </BrowserRouter>

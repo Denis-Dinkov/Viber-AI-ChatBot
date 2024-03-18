@@ -1,14 +1,21 @@
-import {
-  EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
-import { Avatar, Card, Col, Row, Layout } from "antd";
-import PlanCard from "./PlanCard";
-
-const { Meta } = Card;
+import { useNavigate } from "react-router-dom";
+import { Layout } from "antd";
+import { useEffect } from "react";
 
 const Plans = () => {
+  useEffect(() => {
+    const createSession = async () => {
+      const response = await fetch(
+        "http://localhost:3000/stripe/create-session",
+        { method: "POST" }
+      );
+      const session = await response.json();
+      window.location.href = session.url;
+    };
+
+    createSession();
+  }, []);
+
   return (
     <Layout
       style={{
@@ -20,17 +27,7 @@ const Plans = () => {
         justifyContent: "center", // Add this
       }}
     >
-      <Row gutter={[192, 192]} justify="center" align="middle">
-        <Col xs={24} sm={24} xl={8}>
-          <PlanCard />
-        </Col>
-        <Col xs={24} sm={24} xl={8}>
-          <PlanCard />
-        </Col>
-        <Col xs={24} sm={24} xl={8}>
-          <PlanCard />
-        </Col>
-      </Row>
+      <h1>Loading...</h1>
     </Layout>
   );
 };

@@ -6,8 +6,8 @@ const stripe = require("stripe")(STRIPE_SECRET_KEY);
 const createCheckoutSession = async (req, res) => {
   try {
     const session = await stripe.checkout.sessions.create({
-      success_url: "http://www.google.com",
-      cancel_url: "http://www.youtube.com",
+      success_url: "http://localhost:5173/success", // Replace with your URL
+      cancel_url: "http://localhost:5173/success",
       line_items: [
         {
           price: process.env.YEARLY_PLAN_ID, // Make sure to define this in your .env file

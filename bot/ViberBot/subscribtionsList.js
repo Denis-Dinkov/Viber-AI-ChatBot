@@ -10,7 +10,7 @@ const SAMPLE_RICH_MEDIA = {
       Columns: 6,
       Rows: 7,
       ActionType: "open-url",
-      ActionBody: "https://www.google.com",
+      ActionBody: "http://localhost:5173/plans",
       Image:
         "https://i.ibb.co/ZK2gjYh/Colorful-Web-Domain-Price-List-Instagram-Post.png",
     },
