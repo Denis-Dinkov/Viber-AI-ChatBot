@@ -59,7 +59,7 @@ bot.onTextMessage(/./, async (message, response) => {
     socket.emit("message", { uid, name, avatar, text: message.text });
   }
 
-  botResponse(response, message.text);
+  botResponse(response, message.text, uid);
 });
 
 module.exports = bot;

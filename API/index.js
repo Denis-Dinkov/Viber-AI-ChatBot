@@ -8,9 +8,9 @@ const http = require("http");
 const socketIo = require("socket.io");
 const cors = require("cors");
 const app = express();
-
 const server = http.createServer(app);
 const io = socketIo(server);
+const UserService = require("./services/UserService");
 
 mongoose.connect("mongodb://localhost:27017/viberBot");
 
@@ -34,6 +34,7 @@ io.on("connection", (socket) => {
   console.log(`${socket.handshake.address} -> Client connected (${socket.id})`);
 
   socket.on("message", async (data) => {
+    console.log("das");
     if (data.text === "subscribe") {
       UserService.setSubscribeStatus(data.uid, true);
     } else if (data.text === "unsubscribe") {
@@ -49,5 +50,10 @@ io.on("connection", (socket) => {
 
   socket.on("subscribe", async (userId) => {
     UserService.changeUserStatus(userId, true);
+  });
+
+  socket.on("startSession", async (userId) => {
+    const user = await UserService.getUser(userId);
+    console.log(user);
   });
 });

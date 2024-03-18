@@ -19,7 +19,7 @@ const createCheckoutSession = async (req, res) => {
 
     console.log("session", session.id, session.url, session);
     const sessionId = session.id;
-    // socket.emit("session", sessionId);
+    socket.emit("session", sessionId);
     res.json({ url: session.url });
   } catch (error) {
     console.error(error); // Log the error for debugging

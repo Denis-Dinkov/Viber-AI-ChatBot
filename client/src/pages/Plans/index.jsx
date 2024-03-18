@@ -1,8 +1,13 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Layout } from "antd";
 import { useEffect } from "react";
 
 const Plans = () => {
+  const location = useLocation();
+  const query = new URLSearchParams(location.search);
+  const id = query.get("id"); // Get the id query parameter
+  console.log(id);
+
   useEffect(() => {
     const createSession = async () => {
       const response = await fetch(
@@ -10,7 +15,7 @@ const Plans = () => {
         { method: "POST" }
       );
       const session = await response.json();
-      window.location.href = session.url;
+      // window.location.href = session.url;
     };
 
     createSession();

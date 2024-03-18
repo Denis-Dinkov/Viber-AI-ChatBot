@@ -6,13 +6,13 @@ function say(response, message) {
   response.send(new TextMessage(message));
 }
 
-async function botResponse(botResponse, text_received) {
+async function botResponse(botResponse, text_received, id) {
   let sender_name = botResponse;
   let sender_id = botResponse.userProfile.id;
 
   // assistantResponse(botResponse, text_received, say);
   say(botResponse, "Hello, " + sender_name.userProfile.name + "!");
-  subscribtionsList(botResponse);
+  subscribtionsList(botResponse, id);
 }
 
 module.exports = botResponse;
