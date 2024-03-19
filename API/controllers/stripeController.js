@@ -20,6 +20,8 @@ const createCheckoutSession = async (req, res) => {
 
     const sessionId = session.id;
     await userServices.changeUserSession(userId, sessionId);
+
+    return res.status(200).json({ url: session.url });
   } catch (error) {
     console.error(error); // Log the error for debugging
     res.status(500).send("Internal server error");
@@ -45,6 +47,7 @@ const checkCheckoutSession = async (req, res) => {
     res.status(500).send("Internal server error");
   }
 };
+
 module.exports = {
   createCheckoutSession,
   checkCheckoutSession,

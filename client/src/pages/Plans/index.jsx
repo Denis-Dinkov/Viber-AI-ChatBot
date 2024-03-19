@@ -14,6 +14,7 @@ const Plans = () => {
         { method: "POST" }
       );
       const session = await response.json();
+      console.log(session.url);
       window.location.href = session.url;
     };
 
