@@ -3,7 +3,7 @@ import ProtectedLayout from "./components/ProtectedLayout";
 import Dashboard from "./pages/Dashboard";
 import useTheme from "./hooks/useTheme";
 import Plans from "./pages/Plans";
-import Success from "./pages/Success";
+import Success from "./pages/Plans/Success";
 import { theme, ConfigProvider } from "antd";
 
 const App = () => {

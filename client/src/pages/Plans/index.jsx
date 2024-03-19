@@ -14,11 +14,11 @@ const Plans = () => {
         { method: "POST" }
       );
       const session = await response.json();
-      // window.location.href = session.url;
+      window.location.href = session.url;
     };
 
     createSession();
-  }, []);
+  }, [id]);
 
   return (
     <Layout

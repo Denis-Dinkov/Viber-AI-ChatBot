@@ -7,7 +7,7 @@ const createCheckoutSession = async (req, res) => {
   try {
     const userId = req.query.id; // Extract userId from the query parameters
     const session = await stripe.checkout.sessions.create({
-      success_url: "http://localhost:5173/success", // Replace with your URL
+      success_url: `http://localhost:5173/success?id=${userId}`, // Replace with your URL
       cancel_url: "http://localhost:5173/success",
       line_items: [
         {
@@ -26,6 +26,26 @@ const createCheckoutSession = async (req, res) => {
   }
 };
 
+const checkCheckoutSession = async (req, res) => {
+  try {
+    const userId = req.query.id;
+    const { stripe_details: stripeDetails } = await userServices.getUser(
+      userId
+    );
+
+    const checkSession = await stripe.checkout.sessions.retrieve(
+      stripeDetails.sessionId
+    );
+
+    console.log(checkSession);
+
+    return res.status(200).json(stripeDetails);
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    res.status(500).send("Internal server error");
+  }
+};
 module.exports = {
   createCheckoutSession,
+  checkCheckoutSession,
 };

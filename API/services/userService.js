@@ -68,7 +68,6 @@ const getUser = async (uid) => {
 const changeUserSession = async (uid, sessionId) => {
   try {
     const user = await getUser(uid);
-    console.log(user);
     if (!user) return null;
     user.stripe_details = { sessionId, paid_sub: false };
     return await user.save();
@@ -85,4 +84,5 @@ module.exports = {
   checkSubscription,
   changeUserStatus,
   changeUserSession,
+  getUser,
 };
