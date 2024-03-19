@@ -6,12 +6,11 @@ const Plans = () => {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const id = query.get("id"); // Get the id query parameter
-  console.log(id);
 
   useEffect(() => {
     const createSession = async () => {
       const response = await fetch(
-        "http://localhost:3000/stripe/create-session",
+        `http://localhost:3000/stripe/create-session?id=${id}`,
         { method: "POST" }
       );
       const session = await response.json();

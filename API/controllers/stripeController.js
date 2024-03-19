@@ -1,10 +1,11 @@
 require("dotenv").config();
 const { STRIPE_SECRET_KEY, Yearly_PLAN_ID } = process.env;
-
 const stripe = require("stripe")(STRIPE_SECRET_KEY);
+const userServices = require("../services/userService");
 
 const createCheckoutSession = async (req, res) => {
   try {
+    const userId = req.query.id; // Extract userId from the query parameters
     const session = await stripe.checkout.sessions.create({
       success_url: "http://localhost:5173/success", // Replace with your URL
       cancel_url: "http://localhost:5173/success",
@@ -17,10 +18,8 @@ const createCheckoutSession = async (req, res) => {
       mode: "subscription",
     });
 
-    console.log("session", session.id, session.url, session);
     const sessionId = session.id;
-    socket.emit("session", sessionId);
-    res.json({ url: session.url });
+    await userServices.changeUserSession(userId, sessionId);
   } catch (error) {
     console.error(error); // Log the error for debugging
     res.status(500).send("Internal server error");

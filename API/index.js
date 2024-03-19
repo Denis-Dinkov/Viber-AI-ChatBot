@@ -10,7 +10,7 @@ const cors = require("cors");
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
-const UserService = require("./services/UserService");
+const UserService = require("./services/userService");
 
 mongoose.connect("mongodb://localhost:27017/viberBot");
 
@@ -25,8 +25,10 @@ fs.readdirSync(path.join(__dirname, "routes")).forEach((file) => {
 
 app.listen(PORT, () => {
   console.log(`REST API server listening at http://localhost:${PORT}`);
-  server.listen(PORT + 1, () => {
-    console.log(`Socket io server listening at http://localhost:${PORT + 1}`);
+  server.listen(Number(PORT) + 1, () => {
+    console.log(
+      `Socket io server listening at http://localhost:${Number(PORT) + 1}`
+    );
   });
 });
 
@@ -52,8 +54,8 @@ io.on("connection", (socket) => {
     UserService.changeUserStatus(userId, true);
   });
 
-  socket.on("startSession", async (userId) => {
-    const user = await UserService.getUser(userId);
+  socket.on("startSession", async (userId, sessionId) => {
+    const user = await UserService.changeUserSession(userId, sessionId);
     console.log(user);
   });
 });

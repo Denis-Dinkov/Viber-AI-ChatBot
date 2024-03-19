@@ -1,8 +1,6 @@
 const RichMediaMessage = require("viber-bot").Message.RichMedia;
 
 function say(response, id) {
-  console.log(id);
-
   const SAMPLE_RICH_MEDIA = {
     Type: "rich_media",
     ButtonsGroupColumns: 6,

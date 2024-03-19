@@ -61,16 +61,21 @@ const changeUserStatus = async (uid, flag) => {
 const getUser = async (uid) => {
   if (!uid) return null;
   return await User.findOne({ uid }).select(
-    "name avatar subscription isActive stripeSessionId"
+    "name avatar subscription stripe_details"
   );
 };
 
 const changeUserSession = async (uid, sessionId) => {
-  if (!uid) return null;
-  const user = await User.findOne({
-    uid,
-  });
-  console.log(user);
+  try {
+    const user = await getUser(uid);
+    console.log(user);
+    if (!user) return null;
+    user.stripe_details = { sessionId, paid_sub: false };
+    return await user.save();
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 };
 
 module.exports = {

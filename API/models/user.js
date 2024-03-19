@@ -4,10 +4,17 @@ const UserSchema = new mongoose.Schema({
   uid: String,
   name: String,
   avatar: String,
-  subscription: { type: Date, default: null },
-  stripeSessionId: { type: String, default: null },
-  isActive: Boolean,
-  isAdmin: { type: Boolean, default: false },
+  // subscription: { type: Date, default: null },
+
+  // isActive: Boolean,
+  is_admin: { type: Boolean, default: false },
+  stripe_details: {
+    type: Object,
+    default: {
+      sessionId: String,
+      paid_sub: Boolean,
+    },
+  },
 });
 
 module.exports = mongoose.model("User", UserSchema);
