@@ -35,11 +35,21 @@ const checkCheckoutSession = async (req, res) => {
       userId
     );
 
-    const checkSession = await stripe.checkout.sessions.retrieve(
+    const session = await stripe.checkout.sessions.retrieve(
       stripeDetails.sessionId
     );
 
-    console.log(checkSession);
+    const sessionResult = {
+      id: session.id,
+      customer: session.customer,
+      status: session.status,
+      subscription: session.subscription,
+    };
+
+    // console.log(sessionResult);
+    if (session && sessionResult.status === "complete") {
+      await userServices.changeUserSubscription(userId, true);
+    }
 
     return res.status(200).json(stripeDetails);
   } catch (error) {

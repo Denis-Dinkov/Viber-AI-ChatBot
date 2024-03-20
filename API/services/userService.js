@@ -76,6 +76,18 @@ const changeUserSession = async (uid, sessionId) => {
     return null;
   }
 };
+const changeUserSubscription = async (uid, flag) => {
+  try {
+    if (!uid) return null;
+    const user = await getUser(uid);
+    if (!user) return null;
+    user.stripe_details.paid_sub = flag;
+    return await user.save();
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    return null;
+  }
+};
 
 module.exports = {
   getUsers,
@@ -85,4 +97,5 @@ module.exports = {
   changeUserStatus,
   changeUserSession,
   getUser,
+  changeUserSubscription,
 };
