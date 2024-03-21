@@ -57,20 +57,10 @@ bot.on(BotEvents.MESSAGE_RECEIVED, (message, response) => {
 bot.onTextMessage(/./, async (message, response) => {
   try {
     const { id: uid, name, avatar } = response.userProfile;
-    let userData = {};
 
     if (socket.connected) {
-      socket.emit("message", { uid, name, avatar, text: message.text });
-      socket.emit("getUserData", uid);
-      socket.on("receivedUserData", (data) => {
-        if (data.stripe_details.paid_sub && data.stripe_details.sessionId) {
-          botResponse(response, message.text, uid, (isSubscribed = true));
-          console.log("Paid subscription");
-        } else {
-          botResponse(response, message.text, uid, (isSubscribed = false));
-          console.log("No paid subscription");
-        }
-      });
+      await socket.emit("message", { uid, name, avatar, text: message.text });
+      await botResponse(response, message.text, uid, (isSubscribed = true));
     }
   } catch (error) {
     console.error(error);

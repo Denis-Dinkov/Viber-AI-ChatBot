@@ -55,12 +55,13 @@ io.on("connection", (socket) => {
   });
 
   socket.on("startSession", async (userId, sessionId) => {
-    const user = await UserService.changeUserSession(userId, sessionId);
-    console.log(user);
+    await UserService.changeUserSession(userId, sessionId);
+    const users = await UserService.getSubscribedUsers();
+    socket.emit("setSubscribedUsers", users);
   });
 
-  socket.on("getUserData", async (userId) => {
-    const user = await UserService.getUser(userId);
-    socket.emit("receivedUserData", user);
+  socket.on("getSubscribedUsers", async (userId) => {
+    const users = await UserService.getSubscribedUsers();
+    socket.emit("setSubscribedUsers", users);
   });
 });
