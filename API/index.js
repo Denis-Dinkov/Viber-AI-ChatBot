@@ -58,4 +58,9 @@ io.on("connection", (socket) => {
     const user = await UserService.changeUserSession(userId, sessionId);
     console.log(user);
   });
+
+  socket.on("getUserData", async (userId) => {
+    const user = await UserService.getUser(userId);
+    socket.emit("receivedUserData", user);
+  });
 });

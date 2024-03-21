@@ -1,6 +1,7 @@
 const ViberBot = require("viber-bot").Bot;
 const BotEvents = require("viber-bot").Events;
 const TextMessage = require("viber-bot").Message.Text;
+const user = require("../../API/models/user.js");
 const botResponse = require("./botResponse.js");
 
 const io = require("socket.io-client");
@@ -54,12 +55,26 @@ bot.on(BotEvents.MESSAGE_RECEIVED, (message, response) => {
 });
 
 bot.onTextMessage(/./, async (message, response) => {
-  const { id: uid, name, avatar } = response.userProfile;
-  if (socket.connected) {
-    socket.emit("message", { uid, name, avatar, text: message.text });
-  }
+  try {
+    const { id: uid, name, avatar } = response.userProfile;
+    let userData = {};
 
-  botResponse(response, message.text, uid);
+    if (socket.connected) {
+      socket.emit("message", { uid, name, avatar, text: message.text });
+      socket.emit("getUserData", uid);
+      socket.on("receivedUserData", (data) => {
+        if (data.stripe_details.paid_sub && data.stripe_details.sessionId) {
+          botResponse(response, message.text, uid, (isSubscribed = true));
+          console.log("Paid subscription");
+        } else {
+          botResponse(response, message.text, uid, (isSubscribed = false));
+          console.log("No paid subscription");
+        }
+      });
+    }
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 module.exports = bot;
