@@ -84,12 +84,14 @@ const changeUserSession = async (uid, sessionId) => {
     return null;
   }
 };
-const changeUserSubscription = async (uid, flag) => {
+
+const changeUserSubscription = async (stripe_id, uid, flag) => {
   try {
     if (!uid) return null;
     const user = await getUser(uid);
     if (!user) return null;
     user.stripe_details = {
+      stripe_id,
       sessionId: user.stripe_details.sessionId,
       paid_sub: flag,
     };

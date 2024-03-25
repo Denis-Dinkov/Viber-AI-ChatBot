@@ -7,15 +7,15 @@ const socket = io("http://localhost:3001");
 
 let subscribed_users = [];
 
-socket.emit("getSubscribedUsers");
-socket.on("setSubscribedUsers", (data) => (subscribed_users = data));
-
 function say(response, message) {
   response.send(new TextMessage(message));
 }
 
 async function botResponse(botResponse, text_received, id, isSubscribed) {
   let sender_id = botResponse.userProfile.id;
+
+  await socket.emit("getSubscribedUsers", sender_id);
+  await socket.on("setSubscribedUsers", (data) => (subscribed_users = data));
 
   if (subscribed_users.includes(sender_id)) {
     assistantResponse(botResponse, text_received, say);
