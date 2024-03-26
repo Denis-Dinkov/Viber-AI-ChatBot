@@ -62,7 +62,7 @@ const changeUserSession = async (uid, checkoutId) => {
   }
 };
 
-const changeUserSubscription = async (subId, uid, flag) => {
+const changeUserSubscription = async (subId, uid, flag, endDate) => {
   try {
     if (!uid) return null;
     const user = await getUser(uid);
@@ -71,6 +71,8 @@ const changeUserSubscription = async (subId, uid, flag) => {
       ...user.stripe_details,
       active_subscription: flag,
       subscription_id: subId,
+      start_date: new Date(),
+      end_date: new Date(endDate * 1000),
     };
 
     return await user.save();

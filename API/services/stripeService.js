@@ -11,7 +11,7 @@ const createCheckoutSession = async (req, res) => {
       cancel_url: "http://localhost:5173/success",
       line_items: [
         {
-          price: process.env.YEARLY_PLAN_ID, // Make sure to define this in your .env file
+          price: "price_1OvbEdD7YluaJgfUNVULBhQv", // Make sure to define this in your .env file
           quantity: 1,
         },
       ],
@@ -35,18 +35,24 @@ const checkCheckoutSession = async (req, res) => {
       userId
     );
 
-    const { subscription, payment_status, status, ...data } =
+    const { subscription, payment_status, status, expires_at, ...data } =
       await stripe.checkout.sessions.retrieve(
         stripeDetails.checkout_session_id
       );
 
+    console.log(expires_at);
     console.log("step 2");
 
     console.log(stripeDetails, status);
 
     if ((stripeDetails && status === "complete") || status === "open") {
       console.log("step 3");
-      await userServices.changeUserSubscription(subscription, userId, true);
+      await userServices.changeUserSubscription(
+        subscription,
+        userId,
+        true,
+        expires_at
+      );
     }
 
     return res.status(200).json(stripeDetails);
@@ -59,6 +65,9 @@ const checkCheckoutSession = async (req, res) => {
 const checkUserSubscription = async (id) => {
   try {
     const user = await userServices.getUser(id);
+
+    if (!user) return false;
+
     const { active_subscription, subscription_id: subId } =
       user?.stripe_details;
 

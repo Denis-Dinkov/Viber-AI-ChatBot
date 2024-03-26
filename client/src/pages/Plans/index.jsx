@@ -5,7 +5,7 @@ import { useEffect } from "react";
 const Plans = () => {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
-  const id = query.get("id"); // Get the id query parameter
+  const id = query.get("id");
 
   useEffect(() => {
     const createSession = async () => {
