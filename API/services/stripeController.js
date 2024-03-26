@@ -39,6 +39,9 @@ const checkCheckoutSession = async (req, res) => {
     const session = await stripe.checkout.sessions.retrieve(
       stripeDetails.sessionId
     );
+
+    console.log(session);
+
     const sessionResult = {
       id: session.id,
       stripe_id: session.customer,
@@ -47,7 +50,11 @@ const checkCheckoutSession = async (req, res) => {
     };
 
     if (session && sessionResult.status === "complete") {
-      await userServices.changeUserSubscription(userId, true);
+      await userServices.changeUserSubscription(
+        session.subscription,
+        userId,
+        true
+      );
     }
 
     return res.status(200).json(stripeDetails);
@@ -60,16 +67,24 @@ const checkCheckoutSession = async (req, res) => {
 const getUserData = async (id) => {
   try {
     const user = await userServices.getUser(id);
+    // console.log(user);
 
-    if (user && user.stripe_details.sessionId) {
+    if (user && user.stripe_details.stripe_id) {
       const session = await await stripe.subscriptions.retrieve(
-        "cs_test_a1h7zQFi0ijfG5ImlQxfqBBZN3ADjNxawY7AKsimxe4Vz4KHRNFNTC2AQC"
+        user.stripe_details.stripe_id
       );
 
-      // console.log(session);2
+      const subStatus = session.status === "active" ? true : false;
+      console.log(subStatus);
+      // console.log(user.stripe_details.stripe_id);
+
+      return subStatus;
+    } else {
+      return false;
     }
   } catch (error) {
     console.error(error);
+    return false;
   }
 };
 

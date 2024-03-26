@@ -5,20 +5,21 @@ const io = require("socket.io-client");
 
 const socket = io("http://localhost:3001");
 
-let subscribed_users = [];
+let subscribed = false;
 
 function say(response, message) {
   response.send(new TextMessage(message));
 }
 
-async function botResponse(botResponse, text_received, id, isSubscribed) {
+async function botResponse(botResponse, text_received, id) {
   let sender_id = botResponse.userProfile.id;
-
   await socket.emit("getSubscribedUsers", sender_id);
-  await socket.on("setSubscribedUsers", (data) => (subscribed_users = data));
+  await socket.on("setSubscribedUsers", (isSub) => (subscribed = isSub));
+  console.log(subscribed);
 
-  if (subscribed_users.includes(sender_id)) {
-    assistantResponse(botResponse, text_received, say);
+  if (subscribed) {
+    // assistantResponse(botResponse, text_received, say);
+    say(botResponse, "You are subscribed to our service.");
   } else {
     say(
       botResponse,

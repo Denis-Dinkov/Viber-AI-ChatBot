@@ -97,10 +97,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("getSubscribedUsers", async (userId) => {
-    console.log(userId);
-    const users = await UserService.getSubscribedUsers();
     const data = await stripeController.getUserData(userId);
 
-    socket.emit("setSubscribedUsers", users);
+    socket.emit("setSubscribedUsers", data);
   });
 });

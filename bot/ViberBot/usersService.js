@@ -15,7 +15,6 @@ function onSaveUser(response) {
 
 function onDeleteUser(userId) {
   const user = users.find((user) => user.id === userId);
-  console.log(user);
 
   if (user) {
     user.isActive = false;

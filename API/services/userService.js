@@ -18,51 +18,14 @@ const addUser = async (uid, name, avatar) => {
     }
     return null;
   }
+
   const newUser = new User({
     uid,
     name,
     avatar,
-    subscription: null,
-    isActive: true,
+    stripe_details: { session_id: "", paid_sub: false, stripe_id: "" },
   });
   return await newUser.save();
-};
-
-const setSubscribeStatus = async (uid, flag) => {
-  if (!uid) return null;
-  const user = await User.findOne({ uid });
-  if (!user) return null;
-  if (flag == true) {
-    let date = new Date();
-    date.setMinutes(date.getMinutes() + 1);
-    user.subscription = date;
-  } else {
-    user.subscription = null;
-  }
-  return await user.save();
-};
-
-const checkSubscription = async (uid) => {
-  if (!uid) return null;
-  const user = await User.findOne({ uid });
-  if (!user) return null;
-  if (user.subscription == null) return false;
-  return user.subscription > new Date() ? true : false;
-};
-
-const changeUserStatus = async (uid, flag) => {
-  if (!uid) return null;
-  const user = await User.findOne({ uid });
-  if (!user) return null;
-  user.isActive = flag;
-  return await user.save();
-};
-
-const getSubscribedUsers = async () => {
-  const users = await User.find({ "stripe_details.paid_sub": true }).select(
-    "uid -_id"
-  );
-  return users.map((user) => user.uid);
 };
 
 const getUser = async (uid) => {
@@ -73,11 +36,19 @@ const getUser = async (uid) => {
   );
 };
 
+const changeUserStatus = async (uid, flag) => {
+  if (!uid) return null;
+  const user = await User.findOne({ uid });
+  if (!user) return null;
+  user.isActive = flag;
+  return await user.save();
+};
+
 const changeUserSession = async (uid, sessionId) => {
   try {
     const user = await getUser(uid);
     if (!user) return null;
-    user.stripe_details = { sessionId, paid_sub: false };
+    user.stripe_details = { sessionId, paid_sub: false, stripe_id: "" };
     return await user.save();
   } catch (error) {
     console.error(error);
@@ -106,10 +77,8 @@ module.exports = {
   getUsers,
   addUser,
   setSubscribeStatus,
-  checkSubscription,
   changeUserStatus,
   changeUserSession,
   getUser,
   changeUserSubscription,
-  getSubscribedUsers,
 };

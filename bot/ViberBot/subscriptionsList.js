@@ -14,9 +14,6 @@ function say(response, id) {
         ActionBody: `http://localhost:5173/plans?id=${id}`,
         Image:
           "https://i.ibb.co/ZK2gjYh/Colorful-Web-Domain-Price-List-Instagram-Post.png",
-        onClick: () => {
-          console.log("Clicked");
-        },
       },
 
       {
