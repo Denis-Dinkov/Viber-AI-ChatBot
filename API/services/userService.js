@@ -34,10 +34,10 @@ const addUser = async (uid, name, avatar) => {
 
 const getUser = async (uid) => {
   if (!uid) return null;
-  uid = uid.replace(/\s/g, "+");
-  return await User.findOne({ uid }).select(
-    "name avatar subscription stripe_details"
-  );
+  // uid = uid.replace(/\s/g, "+");
+  const user = await User.findOne({ uid });
+  if (!user) return null;
+  return user;
 };
 
 const changeUserStatus = async (uid, flag) => {
@@ -63,16 +63,17 @@ const changeUserSession = async (uid, checkoutId) => {
   }
 };
 
-const changeUserSubscription = async (stripe_id, uid, flag) => {
+const changeUserSubscription = async (subId, uid, flag) => {
   try {
     if (!uid) return null;
     const user = await getUser(uid);
     if (!user) return null;
     user.stripe_details = {
-      stripe_id,
-      sessionId: user.stripe_details.sessionId,
-      paid_sub: flag,
+      ...user.stripe_details,
+      active_subscription: flag,
+      subscription_id: subId,
     };
+
     return await user.save();
   } catch (error) {
     console.error(error); // Log the error for debugging

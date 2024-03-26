@@ -28,53 +28,47 @@ const createCheckoutSession = async (req, res) => {
 };
 
 const checkCheckoutSession = async (req, res) => {
+  console.log("step 1");
   try {
     const userId = req.query.id;
     const { stripe_details: stripeDetails } = await userServices.getUser(
       userId
     );
 
-    const session = await stripe.checkout.sessions.retrieve(
-      stripeDetails.sessionId
-    );
-
-    console.log(session);
-
-    const sessionResult = {
-      id: session.id,
-      stripe_id: session.customer,
-      status: session.status,
-      subscription: session.subscription,
-    };
-
-    if (session && sessionResult.status === "complete") {
-      await userServices.changeUserSubscription(
-        session.subscription,
-        userId,
-        true
+    const { subscription, payment_status, status, ...data } =
+      await stripe.checkout.sessions.retrieve(
+        stripeDetails.checkout_session_id
       );
+
+    console.log("step 2");
+
+    console.log(stripeDetails, status);
+
+    if ((stripeDetails && status === "complete") || status === "open") {
+      console.log("step 3");
+      await userServices.changeUserSubscription(subscription, userId, true);
     }
 
     return res.status(200).json(stripeDetails);
   } catch (error) {
-    console.error(error); // Log the error for debugging
+    console.error(error);
     res.status(500).send("Internal server error");
   }
 };
 
-const getUserData = async (id) => {
+const checkUserSubscription = async (id) => {
   try {
     const user = await userServices.getUser(id);
-    // console.log(user);
+    const { active_subscription, subscription_id: subId } =
+      user?.stripe_details;
 
-    if (user && user.stripe_details.stripe_id) {
-      const session = await await stripe.subscriptions.retrieve(
-        user.stripe_details.stripe_id
-      );
+    if (user && subId) {
+      const subscriptionDetails = await stripe.subscriptions.retrieve(subId);
+      const subStatus = subscriptionDetails?.status === "active" ? true : false;
 
-      const subStatus = session.status === "active" ? true : false;
-      console.log(subStatus);
-      // console.log(user.stripe_details.stripe_id);
+      if (active_subscription !== subStatus) {
+        await userServices.changeUserSubscription(subId, id, false);
+      }
 
       return subStatus;
     } else {
@@ -85,9 +79,8 @@ const getUserData = async (id) => {
     return false;
   }
 };
-
 module.exports = {
   createCheckoutSession,
   checkCheckoutSession,
-  getUserData,
+  checkUserSubscription,
 };
