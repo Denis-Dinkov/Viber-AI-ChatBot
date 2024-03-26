@@ -5,26 +5,29 @@ const io = require("socket.io-client");
 
 const socket = io("http://localhost:3001");
 
-function say(response, message) {
-  response.send(new TextMessage(message));
-}
+socket.on("connect_error", (error) => {
+  console.error(`Connection error: ${error}`);
+});
 
-function botResponse(botResponse, text_received, id) {
-  let sender_id = botResponse.userProfile.id;
-  socket.emit("checkSubscription", sender_id);
+function botResponse(response, textReceived, id) {
+  const senderId = response.userProfile.id;
+  socket.emit("checkSubscription", senderId);
+
   socket.once("subscriptionStatus", (status) => {
     console.log(status);
-    let subscribed = status.active_subscription;
+    const subscribed = status.active_subscription;
 
     if (status) {
-      say(botResponse, "You are subscribed to our service.");
+      response.send(new TextMessage("You are subscribed to our service."));
     } else {
-      say(
-        botResponse,
-        "You are not subscribed to our service. Please subscribe to continue."
+      response.send(
+        new TextMessage(
+          "You are not subscribed to our service. Please subscribe to continue."
+        )
       );
-      subscriptionsList(botResponse, id);
+      subscriptionsList(response, id);
     }
   });
 }
+
 module.exports = botResponse;
