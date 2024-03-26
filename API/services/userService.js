@@ -25,7 +25,7 @@ const addUser = async (uid, name, avatar) => {
     avatar,
     stripe_details: {
       active_subscription: false,
-      payment_session_id: "",
+      checkout_session_id: "",
       subscription_id: "",
     },
   });
@@ -48,13 +48,13 @@ const changeUserStatus = async (uid, flag) => {
   return await user.save();
 };
 
-const changeUserSession = async (uid, sessionId) => {
+const changeUserSession = async (uid, checkoutId) => {
   try {
     const user = await getUser(uid);
     if (!user) return null;
     user.stripe_details = {
       ...user.stripe_details,
-      payment_session_id: sessionId,
+      checkout_session_id: checkoutId,
     };
     return await user.save();
   } catch (error) {

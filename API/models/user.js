@@ -12,7 +12,7 @@ const UserSchema = new mongoose.Schema({
     type: Object,
     default: {
       active_subscription: Boolean,
-      payment_session_id: String,
+      checkout_session_id: String,
       subscription_id: String,
     },
   },

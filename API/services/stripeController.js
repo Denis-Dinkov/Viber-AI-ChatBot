@@ -7,7 +7,7 @@ const createCheckoutSession = async (req, res) => {
   try {
     const userId = req.query.id;
     const session = await stripe.checkout.sessions.create({
-      success_url: `http://localhost:5173/success?id=${userId}`, // Replace with your URL
+      success_url: `http://localhost:5173/success?id=${userId}`,
       cancel_url: "http://localhost:5173/success",
       line_items: [
         {
@@ -18,13 +18,11 @@ const createCheckoutSession = async (req, res) => {
       mode: "subscription",
     });
 
-    const sessionId = session.id;
-    console.log(sessionId);
-    await userServices.changeUserSession(userId, sessionId);
+    await userServices.changeUserSession(userId, session.id);
 
     return res.status(200).json({ url: session.url });
   } catch (error) {
-    console.error(error); // Log the error for debugging
+    console.error(error);
     res.status(500).send("Internal server error");
   }
 };
