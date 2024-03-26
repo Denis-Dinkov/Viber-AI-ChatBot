@@ -23,7 +23,11 @@ const addUser = async (uid, name, avatar) => {
     uid,
     name,
     avatar,
-    stripe_details: { session_id: "", paid_sub: false, stripe_id: "" },
+    stripe_details: {
+      active_subscription: false,
+      payment_session_id: "",
+      subscription_id: "",
+    },
   });
   return await newUser.save();
 };
@@ -48,7 +52,10 @@ const changeUserSession = async (uid, sessionId) => {
   try {
     const user = await getUser(uid);
     if (!user) return null;
-    user.stripe_details = { sessionId, paid_sub: false, stripe_id: "" };
+    user.stripe_details = {
+      ...user.stripe_details,
+      payment_session_id: sessionId,
+    };
     return await user.save();
   } catch (error) {
     console.error(error);
@@ -76,7 +83,6 @@ const changeUserSubscription = async (stripe_id, uid, flag) => {
 module.exports = {
   getUsers,
   addUser,
-  setSubscribeStatus,
   changeUserStatus,
   changeUserSession,
   getUser,

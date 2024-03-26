@@ -11,9 +11,9 @@ const UserSchema = new mongoose.Schema({
   stripe_details: {
     type: Object,
     default: {
-      sub_id: String,
-      sessionId: String,
-      paid_sub: Boolean,
+      active_subscription: Boolean,
+      payment_session_id: String,
+      subscription_id: String,
     },
   },
 });
