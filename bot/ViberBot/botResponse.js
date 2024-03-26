@@ -14,7 +14,6 @@ function botResponse(response, textReceived, id) {
   socket.emit("checkSubscription", senderId);
 
   socket.once("subscriptionStatus", (status) => {
-    console.log(status);
     const subscribed = status.active_subscription;
 
     if (status) {

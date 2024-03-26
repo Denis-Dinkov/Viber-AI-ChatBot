@@ -14,6 +14,8 @@ const UserSchema = new mongoose.Schema({
       active_subscription: Boolean,
       checkout_session_id: String,
       subscription_id: String,
+      start_date: Date,
+      end_date: Date,
     },
   },
 });

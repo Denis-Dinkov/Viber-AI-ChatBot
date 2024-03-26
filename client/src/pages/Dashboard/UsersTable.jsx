@@ -38,16 +38,15 @@ const UsersTable = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const response = await fetch(
-        "http://localhost:3000/users?id=poxPTw8qu2TPGXlbK8aFUw=="
-      );
+      const response = await fetch("http://localhost:3000/users");
       const res = await response.json();
       const users = res.map((user) => {
+        console.log(user);
         return {
           key: user._id,
           avatar: user.avatar,
           name: user.name,
-          subscription: user.subscription
+          subscription: user.stripe_details.active_subscription
             ? new Date(user.subscription).toLocaleString()
             : "Free",
           status: user.status ? "Active" : "Inactive",

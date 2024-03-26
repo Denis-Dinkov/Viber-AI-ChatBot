@@ -1,11 +1,8 @@
 const User = require("../models/user");
 
-const getUsers = async (id) => {
-  if (!id) return [];
-  const user = await User.find({ uid: id });
-  if (user.length === 0) return [];
-  if (user.isAdmin === false) return [];
-  return await User.find();
+const getAllUsers = async (req, res) => {
+  const users = await User.find();
+  res.json(users);
 };
 
 const addUser = async (uid, name, avatar) => {
@@ -27,6 +24,8 @@ const addUser = async (uid, name, avatar) => {
       active_subscription: false,
       checkout_session_id: "",
       subscription_id: "",
+      start_date: null,
+      end_date: null,
     },
   });
   return await newUser.save();
@@ -82,7 +81,7 @@ const changeUserSubscription = async (subId, uid, flag) => {
 };
 
 module.exports = {
-  getUsers,
+  getAllUsers,
   addUser,
   changeUserStatus,
   changeUserSession,
