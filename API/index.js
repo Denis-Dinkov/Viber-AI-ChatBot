@@ -14,7 +14,7 @@ const UserService = require("./services/userService");
 const stripeController = require("./services/stripeService");
 const stripe = require("stripe")(STRIPE_SECRET_KEY);
 
-mongoose.connect("mongodb://localhost:27017/viberBot");
+mongoose.connect(process.env.MONGO_URI);
 let secretKey =
   "whsec_64ec8a98ab1dc5e8b4728554c391cb0327ec80bf6d171efb509b9a99fa5584ff";
 app.use(cors()); // Use cors middleware
