@@ -1,13 +1,9 @@
 import { useState } from "react";
-import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-import { Layout, Menu, theme } from "antd";
+import { DesktopOutlined, PieChartOutlined } from "@ant-design/icons";
+import { Layout, Menu } from "antd";
 const { Sider } = Layout;
+import MessageModal from "../MessageModal";
+
 function getItem(label, key, icon, children) {
   return {
     key,
@@ -18,13 +14,19 @@ function getItem(label, key, icon, children) {
 }
 const items = [
   getItem("Dashboard", "1", <PieChartOutlined />),
-  getItem("Message", "2", <DesktopOutlined />),
+  getItem("Send Message", "2", <DesktopOutlined />),
 ];
 
 const SiderComponent = () => {
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+  const [isVisibleModal, setIsVisibleModal] = useState(false);
+
+  const handleItemClick = (key) => {
+    if (key === "2") {
+      setIsVisibleModal(true);
+    }
+  };
+
+  console.log(isVisibleModal);
 
   return (
     <Sider
@@ -63,6 +65,11 @@ const SiderComponent = () => {
         defaultSelectedKeys={["1"]}
         mode="inline"
         items={items}
+        onClick={({ key }) => handleItemClick(key)}
+      />
+      <MessageModal
+        show={isVisibleModal}
+        handleClose={() => setIsVisibleModal(false)}
       />
     </Sider>
   );
