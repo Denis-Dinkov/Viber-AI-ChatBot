@@ -26,8 +26,6 @@ const SiderComponent = () => {
     }
   };
 
-  console.log(isVisibleModal);
-
   return (
     <Sider
       breakpoint="lg"

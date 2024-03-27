@@ -9,12 +9,10 @@ const socketIo = require("socket.io");
 const cors = require("cors");
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);
+const io = socketIo(server, { cors: { origin: "*" } });
 const UserService = require("./services/userService");
 const stripeController = require("./services/stripeService");
 const stripe = require("stripe")(STRIPE_SECRET_KEY);
-const user = require("./models/user");
-const bodyParser = require("body-parser");
 
 mongoose.connect("mongodb://localhost:27017/viberBot");
 let secretKey =
@@ -99,5 +97,9 @@ io.on("connection", (socket) => {
   socket.on("checkSubscription", async (userId) => {
     const data = await stripeController.checkUserSubscription(userId);
     socket.emit("subscriptionStatus", data);
+  });
+
+  socket.on("admin-message", async (data) => {
+    io.emit("hui-message", data);
   });
 });

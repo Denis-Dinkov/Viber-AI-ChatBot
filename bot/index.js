@@ -5,13 +5,9 @@ const bot = require("./ViberBot/botConfig");
 const express = require("express");
 const app = express();
 const routes = require("./Routes/routes");
-/*const mongoose = require("mongoose");
-
-mongoose.connect(process.env.DATABASE_URL);
-const db = mongoose.connection;
-db.on("error", (err) => console.error(err));
-db.once("open", () => console.log("Connected to database"));
-*/
+const io = require("socket.io-client");
+const socket = io("http://localhost:3001");
+const TextMessage = require("viber-bot").Message.Text;
 
 const port = 5005;
 app.use(bot.middleware());
@@ -35,10 +31,24 @@ const tunnel = localtunnel(
     });
   }
 );
-
 tunnel.on("close", function () {
   // tunnels are closed
 });
-
 app.use(express.json());
 app.use("/data", routes);
+
+socket.on("connect", () => {
+  console.log("Connected to socket.io server");
+
+  socket.on("hui-message", (data) => {
+    bot.sendMessage(
+      { id: "poxPTw8qu2TPGXlbK8aFUw==" },
+      new TextMessage(data.text)
+    );
+  });
+});
+
+socket.on("connect_error", (error) => {
+  console.log("Can not connect to socket.io server. Is it running?");
+  console.log("Connect error: ", error);
+});
