@@ -6,31 +6,24 @@ const express = require("express");
 const app = express();
 const routes = require("./Routes/routes");
 const io = require("socket.io-client");
-const socket = io("http://localhost:3001");
+const socket = io(process.env.SOCKET_IO);
 const TextMessage = require("viber-bot").Message.Text;
 
-const port = 5005;
+const port = process.env.PORT;
 app.use(bot.middleware());
 
-const tunnel = localtunnel(
-  port,
-  { subdomain: "my-subdomain" },
-  (err, tunnel) => {
-    if (err) {
-      console.log("Can not connect to localtunnel server. Is it running?");
-      console.error(err);
-      process.exit(1);
-    }
-
-    // the assigned public url for your tunnel
-    // i.e. https://my-subdomain.loca.lt
-    const publicUrl = tunnel.url;
-    app.listen(port, () => {
-      console.log(`Your bot is available at: ${publicUrl}`);
-      bot.setWebhook(publicUrl);
-    });
+const tunnel = localtunnel(port, { subdomain: "my-subdomain" }, (err, tunnel) => {
+  if (err) {
+    console.log("Can not connect to localtunnel server. Is it running?");
+    console.error(err);
+    process.exit(1);
   }
-);
+
+  // the assigned public url for your tunnel
+  // i.e. https://my-subdomain.loca.lt
+  const publicUrl = tunnel.url;
+  console.log(`Your public URL is: ${publicUrl}`);
+});
 tunnel.on("close", function () {
   // tunnels are closed
 });
