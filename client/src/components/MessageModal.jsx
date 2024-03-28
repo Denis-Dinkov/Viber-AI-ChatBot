@@ -7,12 +7,9 @@ const socket = io("http://localhost:3001");
 
 const MessageModal = ({ show, handleClose }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [setModalText] = useState("Content of the modal");
   const [textAreaValue, setTextAreaValue] = useState("");
 
-  const handleOk = async () => {
-    setModalText("Sending message...");
-
+  const handleSend = async () => {
     if (socket.connected) {
       try {
         socket.emit("admin-message", { text: textAreaValue });
@@ -21,7 +18,6 @@ const MessageModal = ({ show, handleClose }) => {
         console.error(error);
       } finally {
         setConfirmLoading(false);
-        setModalText("");
         handleClose();
       }
     }
@@ -36,7 +32,7 @@ const MessageModal = ({ show, handleClose }) => {
       <Modal
         title="Send Message "
         open={show}
-        onOk={handleOk}
+        onOk={handleSend}
         confirmLoading={confirmLoading}
         onCancel={handleClose}
       >

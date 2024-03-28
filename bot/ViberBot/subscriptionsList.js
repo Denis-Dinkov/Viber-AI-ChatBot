@@ -10,7 +10,7 @@ function say(response, id) {
       {
         Columns: 6,
         Rows: 7,
-        ActionType: "open-url",
+        ActionType: "none",
         ActionBody: `http://localhost:5173/plans?id=${id}`,
         Image:
           "https://i.ibb.co/ZK2gjYh/Colorful-Web-Domain-Price-List-Instagram-Post.png",
@@ -19,7 +19,7 @@ function say(response, id) {
       {
         Columns: 6,
         Rows: 7,
-        ActionType: "open-url",
+        ActionType: "none",
         ActionBody: "https://www.google.com",
         Image:
           "https://i.ibb.co/Khn6mYG/Colorful-Web-Domain-Price-List-Instagram-Post-1.png",

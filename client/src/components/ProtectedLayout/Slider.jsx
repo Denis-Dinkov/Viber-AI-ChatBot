@@ -28,7 +28,7 @@ const SliderComponent = () => {
 
   return (
     <Sider breakpoint="lg" collapsedWidth="0">
-      {/* <div
+      <div
         className="demo-logo-vertical"
         style={{
           height: "32px",
@@ -42,13 +42,13 @@ const SliderComponent = () => {
         <span
           style={{
             color: "white",
-            marginLeft: "8px",
+            marginLeft: "20%",
             // display: collapsed ? "none" : "block",
           }}
         >
-          Logo
+          Stanka Viber Bot
         </span>
-      </div> */}
+      </div>
       <Menu
         theme="dark"
         defaultSelectedKeys={["1"]}

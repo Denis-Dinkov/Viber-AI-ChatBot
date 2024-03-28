@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { MoonOutlined, SunOutlined } from "@ant-design/icons";
 import { Layout, Button, theme } from "antd";
 import CurrentUser from "./CurrentUser";
@@ -8,6 +7,7 @@ const HeaderComponent = ({ toggleTheme, currentTheme }) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
   return (
     <Header
       style={{

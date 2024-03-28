@@ -1,34 +1,32 @@
 require("dotenv").config();
-// const ngrok = require("./get_public_url");
 const localtunnel = require("localtunnel");
-const bot = require("./ViberBot/botConfig");
 const express = require("express");
+const bot = require("./ViberBot/botConfig");
 const app = express();
-const routes = require("./Routes/routes");
 const io = require("socket.io-client");
-const socket = io(process.env.SOCKET_IO);
 const TextMessage = require("viber-bot").Message.Text;
-
 const port = process.env.PORT;
+const socket = io(process.env.SOCKET_IO);
+
 app.use(bot.middleware());
-
-const tunnel = localtunnel(port, { subdomain: "my-subdomain" }, (err, tunnel) => {
-  if (err) {
-    console.log("Can not connect to localtunnel server. Is it running?");
-    console.error(err);
-    process.exit(1);
-  }
-
-  // the assigned public url for your tunnel
-  // i.e. https://my-subdomain.loca.lt
-  const publicUrl = tunnel.url;
-  console.log(`Your public URL is: ${publicUrl}`);
-});
-tunnel.on("close", function () {
-  // tunnels are closed
-});
 app.use(express.json());
-app.use("/data", routes);
+
+const tunnel = localtunnel(
+  port,
+  { subdomain: "my-subdomain" },
+  (err, tunnel) => {
+    if (err) {
+      console.log("Can not connect to localtunnel server. Is it running?");
+      console.error(err);
+      process.exit(1);
+    }
+
+    const publicUrl = tunnel.url;
+    console.log(`Your public URL is: ${publicUrl}`);
+  }
+);
+
+tunnel.on("close", function () {});
 
 socket.on("connect", () => {
   console.log("Connected to socket.io server");
