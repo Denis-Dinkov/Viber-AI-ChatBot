@@ -1,9 +1,10 @@
+require("dotenv").config();
 const TextMessage = require("viber-bot").Message.Text;
 const assistantResponse = require("../OpenAi/assistantResponse.js");
 const subscriptionsList = require("./subscriptionsList.js");
 const io = require("socket.io-client");
 
-const socket = io("http://localhost:3001");
+const socket = io(process.env.SOCKET_IO);
 
 socket.on("connect_error", (error) => {
   console.error(`Connection error: ${error}`);
