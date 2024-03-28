@@ -4,9 +4,6 @@ const UserSchema = new mongoose.Schema({
   uid: String,
   name: String,
   avatar: String,
-  // subscription: { type: Date, default: null },
-
-  // isActive: Boolean,
   is_admin: { type: Boolean, default: false },
   stripe_details: {
     type: Object,

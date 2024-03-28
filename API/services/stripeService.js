@@ -28,7 +28,6 @@ const createCheckoutSession = async (req, res) => {
 };
 
 const checkCheckoutSession = async (req, res) => {
-  console.log("step 1");
   try {
     const userId = req.query.id;
     const { stripe_details: stripeDetails } = await userServices.getUser(
@@ -40,13 +39,7 @@ const checkCheckoutSession = async (req, res) => {
         stripeDetails.checkout_session_id
       );
 
-    console.log(expires_at);
-    console.log("step 2");
-
-    console.log(stripeDetails, status);
-
     if ((stripeDetails && status === "complete") || status === "open") {
-      console.log("step 3");
       await userServices.changeUserSubscription(
         subscription,
         userId,
