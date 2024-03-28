@@ -99,7 +99,7 @@ io.on("connection", (socket) => {
     socket.emit("subscriptionStatus", data);
   });
 
-  socket.on("admin-message", async (data) => {
-    io.emit("hui-message", data);
+  socket.on("client-side-message", async (data) => {
+    io.emit("admin-message", data);
   });
 });

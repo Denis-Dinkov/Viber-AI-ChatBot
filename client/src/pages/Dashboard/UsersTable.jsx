@@ -1,6 +1,6 @@
 import { Table, Tag, Card, Avatar } from "antd";
-import { useEffect, useState } from "react";
-
+import { useEffect, useState, useContext } from "react";
+import { UsersContext } from "../../context/UsersContext";
 const columns = [
   {
     dataIndex: "avatar",
@@ -48,12 +48,13 @@ const columns = [
   },
 ];
 
-const UsersTable = ({ usersData }) => {
-  const [users, setUsers] = useState([]);
+const UsersTable = () => {
+  const users = useContext(UsersContext);
+  const [usersData, setUsers] = useState(users);
 
   useEffect(() => {
     setUsers(
-      usersData.map((user) => {
+      users.map((user) => {
         return {
           key: user._id,
           avatar: user.avatar,
@@ -66,7 +67,7 @@ const UsersTable = ({ usersData }) => {
         };
       })
     );
-  }, [usersData]);
+  }, [users]);
 
   return (
     <Card
@@ -78,7 +79,7 @@ const UsersTable = ({ usersData }) => {
     >
       <Table
         columns={columns}
-        dataSource={users}
+        dataSource={usersData}
         pagination={{ pageSize: 7 }}
       />
     </Card>

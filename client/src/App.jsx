@@ -5,6 +5,7 @@ import useTheme from "./hooks/useTheme";
 import Loading from "./pages/Plans/Loading";
 import Success from "./pages/Plans/Success";
 import { theme, ConfigProvider } from "antd";
+import { UsersProvider } from "./context/UsersContext";
 
 const App = () => {
   const [currentTheme, toggleTheme] = useTheme();
@@ -18,23 +19,25 @@ const App = () => {
             : theme.defaultAlgorithm,
       }}
     >
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <ProtectedLayout
-                toggleTheme={toggleTheme}
-                currentTheme={currentTheme}
-              >
-                <Dashboard />
-              </ProtectedLayout>
-            }
-          />
-          <Route path="/plans" element={<Loading />} />
-          <Route path="/success" element={<Success />} />
-        </Routes>
-      </BrowserRouter>
+      <UsersProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <ProtectedLayout
+                  toggleTheme={toggleTheme}
+                  currentTheme={currentTheme}
+                >
+                  <Dashboard />
+                </ProtectedLayout>
+              }
+            />
+            <Route path="/plans" element={<Loading />} />
+            <Route path="/success" element={<Success />} />
+          </Routes>
+        </BrowserRouter>
+      </UsersProvider>
     </ConfigProvider>
   );
 };

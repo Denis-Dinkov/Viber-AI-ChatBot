@@ -1,28 +1,17 @@
 import { Col, Row } from "antd";
 import UsersTable from "./UsersTable";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { UsersContext } from "../../context/UsersContext";
 
 import DashboardCard from "./DashboardCard";
 const Dashboard = () => {
-  const [users, setUsers] = useState([]);
-
+  const users = useContext(UsersContext);
   const subscribedUsers = users.filter(
     (user) => user.stripe_details.active_subscription === true
   );
   const notSubscribedUsers = users.filter(
     (user) => user.stripe_details.active_subscription === false
   );
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const response = await fetch("http://localhost:3000/users");
-      const res = await response.json();
-
-      setUsers(res);
-    };
-
-    fetchUsers();
-  }, []);
 
   return (
     <>

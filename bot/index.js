@@ -20,9 +20,11 @@ const tunnel = localtunnel(
       console.error(err);
       process.exit(1);
     }
-
     const publicUrl = tunnel.url;
-    console.log(`Your public URL is: ${publicUrl}`);
+    app.listen(port, () => {
+      console.log(`Your bot is available at: ${publicUrl}`);
+      bot.setWebhook(publicUrl);
+    });
   }
 );
 
@@ -31,11 +33,9 @@ tunnel.on("close", function () {});
 socket.on("connect", () => {
   console.log("Connected to socket.io server");
 
-  socket.on("hui-message", (data) => {
-    bot.sendMessage(
-      { id: "poxPTw8qu2TPGXlbK8aFUw==" },
-      new TextMessage(data.text)
-    );
+  socket.on("admin-message", (data) => {
+    console.log(data);
+    bot.sendMessage({ id: data.userId }, new TextMessage(data.text));
   });
 });
 
