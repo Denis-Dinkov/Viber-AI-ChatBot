@@ -1,16 +1,13 @@
 import { useState } from "react";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-
+import { MoonOutlined, SunOutlined } from "@ant-design/icons";
 import { Layout, Button, theme } from "antd";
-import CurrentUser from "./currentUser";
+import CurrentUser from "./CurrentUser";
 const { Header } = Layout;
 
-const HeaderComponent = ({ toggleTheme }) => {
-  const [collapsed] = useState(false);
+const HeaderComponent = ({ toggleTheme, currentTheme }) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-
   return (
     <Header
       style={{
@@ -26,8 +23,9 @@ const HeaderComponent = ({ toggleTheme }) => {
       }}
     >
       <Button
+        style={{ marginRight: "1rem" }}
         type="text"
-        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+        icon={currentTheme === "dark" ? <SunOutlined /> : <MoonOutlined />}
         onClick={() => toggleTheme()}
       />
       <CurrentUser />

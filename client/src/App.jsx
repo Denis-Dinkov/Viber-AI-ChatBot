@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProtectedLayout from "./components/ProtectedLayout";
 import Dashboard from "./pages/Dashboard";
 import useTheme from "./hooks/useTheme";
-import Plans from "./pages/Plans";
+import Loading from "./pages/Plans/Loading";
 import Success from "./pages/Plans/Success";
 import { theme, ConfigProvider } from "antd";
 
@@ -23,14 +23,16 @@ const App = () => {
           <Route
             path="/"
             element={
-              <ProtectedLayout toggleTheme={toggleTheme}>
+              <ProtectedLayout
+                toggleTheme={toggleTheme}
+                currentTheme={currentTheme}
+              >
                 <Dashboard />
               </ProtectedLayout>
             }
           />
-          <Route path="/plans" element={<Plans />} />
+          <Route path="/plans" element={<Loading />} />
           <Route path="/success" element={<Success />} />
-          {/* <Route path="*" element={<Navigate to="/app" />} /> */}
         </Routes>
       </BrowserRouter>
     </ConfigProvider>

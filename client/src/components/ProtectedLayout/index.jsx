@@ -1,18 +1,21 @@
 import { Layout, theme } from "antd";
 
 const { Content } = Layout;
-import SiderComponent from "./sider";
-import HeaderComponent from "./header";
+import SliderComponent from "./Slider";
+import HeaderComponent from "./Header";
 
-const ProtectedLayout = ({ children, toggleTheme }) => {
+const ProtectedLayout = ({ children, toggleTheme, currentTheme }) => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   return (
     <Layout style={{ height: "100vh" }}>
-      <SiderComponent />
+      <SliderComponent />
       <Layout>
-        <HeaderComponent toggleTheme={toggleTheme} />
+        <HeaderComponent
+          toggleTheme={toggleTheme}
+          currentTheme={currentTheme}
+        />
         <Content
           style={{
             margin: "24px 16px",

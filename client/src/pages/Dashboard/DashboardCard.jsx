@@ -1,23 +1,22 @@
 import { AuditOutlined, ShopOutlined, TeamOutlined } from "@ant-design/icons";
 import { Area } from "@ant-design/plots";
-import { Card, Skeleton, Typography } from "antd";
+import { Card, Typography } from "antd";
 import IconWrapper from "../../components/IconWrapper";
 
-const { Text, Title } = Typography;
-
-const DashboardCard = ({ resource, isLoading, totalCount }) => {
+const DashboardCard = ({ resource, data, totalCount }) => {
+  const { Text, Title } = Typography;
   const { primaryColor, secondaryColor, icon, title } = variants[resource];
 
   const config = {
     appendPadding: [1, 0, 0, 0],
     padding: 0,
     syncViewPadding: true,
-    data: variants[resource].data,
+    data: data,
     autoFit: true,
     tooltip: false,
     animation: false,
-    xField: "index",
-    yField: "value",
+    xField: "_id",
+    yField: "name",
     xAxis: false,
     yAxis: {
       tickCount: 12,
@@ -65,7 +64,7 @@ const DashboardCard = ({ resource, isLoading, totalCount }) => {
       >
         {icon}
         <Text level={5} style={{ marginLeft: "8px" }}>
-          Bot Users
+          {title}
         </Text>
       </div>
       <div
@@ -86,16 +85,7 @@ const DashboardCard = ({ resource, isLoading, totalCount }) => {
             fontVariantNumeric: "tabular-nums",
           }}
         >
-          {isLoading ? (
-            <Skeleton.Button
-              style={{
-                marginTop: "8px",
-                width: "74px",
-              }}
-            />
-          ) : (
-            totalCount
-          )}
+          {totalCount}
         </Title>
         <Area
           {...config}
@@ -110,7 +100,7 @@ const DashboardCard = ({ resource, isLoading, totalCount }) => {
 };
 
 const variants = {
-  companies: {
+  allUsers: {
     primaryColor: "#1677FF",
     secondaryColor: "#BAE0FF",
     icon: (
@@ -123,31 +113,9 @@ const variants = {
         />
       </IconWrapper>
     ),
-    title: "Bot Users",
-    data: [
-      {
-        index: "1",
-        value: 3500,
-      },
-      {
-        index: "2",
-        value: 2750,
-      },
-      {
-        index: "3",
-        value: 5000,
-      },
-      {
-        index: "4",
-        value: 4250,
-      },
-      {
-        index: "5",
-        value: 5000,
-      },
-    ],
+    title: "Total users",
   },
-  contacts: {
+  subscribedUsers: {
     primaryColor: "#52C41A",
     secondaryColor: "#D9F7BE",
     icon: (
@@ -160,35 +128,9 @@ const variants = {
         />
       </IconWrapper>
     ),
-    title: "Number of contacts",
-    data: [
-      {
-        index: "1",
-        value: 10000,
-      },
-      {
-        index: "2",
-        value: 19500,
-      },
-      {
-        index: "3",
-        value: 13000,
-      },
-      {
-        index: "4",
-        value: 17000,
-      },
-      {
-        index: "5",
-        value: 13000,
-      },
-      {
-        index: "6",
-        value: 20000,
-      },
-    ],
+    title: "Subscribed users",
   },
-  deals: {
+  notSubscribedUsers: {
     primaryColor: "#FA541C",
     secondaryColor: "#FFD8BF",
     icon: (
@@ -201,41 +143,7 @@ const variants = {
         />
       </IconWrapper>
     ),
-    title: "Total deals in pipeline",
-    data: [
-      {
-        index: "1",
-        value: 1000,
-      },
-      {
-        index: "2",
-        value: 1300,
-      },
-      {
-        index: "3",
-        value: 1200,
-      },
-      {
-        index: "4",
-        value: 2000,
-      },
-      {
-        index: "5",
-        value: 800,
-      },
-      {
-        index: "6",
-        value: 1700,
-      },
-      {
-        index: "7",
-        value: 1400,
-      },
-      {
-        index: "8",
-        value: 1800,
-      },
-    ],
+    title: "Not subscribed users",
   },
 };
 

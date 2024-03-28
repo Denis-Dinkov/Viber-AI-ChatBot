@@ -17,7 +17,7 @@ const items = [
   getItem("Send Message", "2", <DesktopOutlined />),
 ];
 
-const SiderComponent = () => {
+const SliderComponent = () => {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
 
   const handleItemClick = (key) => {
@@ -27,17 +27,8 @@ const SiderComponent = () => {
   };
 
   return (
-    <Sider
-      breakpoint="lg"
-      collapsedWidth="0"
-      onBreakpoint={(broken) => {
-        console.log(broken);
-      }}
-      onCollapse={(collapsed, type) => {
-        console.log(collapsed, type);
-      }}
-    >
-      <div
+    <Sider breakpoint="lg" collapsedWidth="0">
+      {/* <div
         className="demo-logo-vertical"
         style={{
           height: "32px",
@@ -57,7 +48,7 @@ const SiderComponent = () => {
         >
           Logo
         </span>
-      </div>
+      </div> */}
       <Menu
         theme="dark"
         defaultSelectedKeys={["1"]}
@@ -73,4 +64,4 @@ const SiderComponent = () => {
   );
 };
 
-export default SiderComponent;
+export default SliderComponent;

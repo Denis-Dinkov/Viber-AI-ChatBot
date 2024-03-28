@@ -7,7 +7,7 @@ const socket = io("http://localhost:3001");
 
 const MessageModal = ({ show, handleClose }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [modalText, setModalText] = useState("Content of the modal");
+  const [setModalText] = useState("Content of the modal");
   const [textAreaValue, setTextAreaValue] = useState("");
 
   const handleOk = async () => {

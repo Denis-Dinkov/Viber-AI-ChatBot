@@ -1,5 +1,6 @@
 import { Table, Tag, Card, Avatar } from "antd";
 import { useEffect, useState } from "react";
+
 const columns = [
   {
     dataIndex: "avatar",
@@ -47,14 +48,12 @@ const columns = [
   },
 ];
 
-const UsersTable = () => {
+const UsersTable = ({ usersData }) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      const response = await fetch("http://localhost:3000/users");
-      const res = await response.json();
-      const users = res.map((user) => {
+    setUsers(
+      usersData.map((user) => {
         return {
           key: user._id,
           avatar: user.avatar,
@@ -65,12 +64,9 @@ const UsersTable = () => {
           start_date: user.stripe_details.start_date,
           end_date: user.stripe_details.end_date,
         };
-      });
-
-      setUsers(users);
-    };
-    fetchUsers();
-  }, []);
+      })
+    );
+  }, [usersData]);
 
   return (
     <Card
@@ -80,7 +76,11 @@ const UsersTable = () => {
         },
       }}
     >
-      <Table columns={columns} dataSource={users} />
+      <Table
+        columns={columns}
+        dataSource={users}
+        pagination={{ pageSize: 7 }}
+      />
     </Card>
   );
 };
