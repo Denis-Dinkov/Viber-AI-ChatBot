@@ -2,11 +2,12 @@ const ViberBot = require("viber-bot").Bot;
 const BotEvents = require("viber-bot").Events;
 const TextMessage = require("viber-bot").Message.Text;
 const user = require("../../API/models/user.js");
+require("dotenv").config();
 const botResponse = require("./botResponse.js");
 
 const io = require("socket.io-client");
 
-const socket = io("http://localhost:3001");
+const socket = io(process.env.SOCKET_IO);
 
 function say(response, message) {
   response.send(new TextMessage(message));
@@ -60,7 +61,8 @@ bot.onTextMessage(/./, async (message, response) => {
 
     if (socket.connected) {
       await socket.emit("message", { uid, name, avatar, text: message.text });
-      await botResponse(response, message.text, uid, (isSubscribed = true));
+
+      botResponse(response, message.text, uid, (isSubscribed = true));
     }
   } catch (error) {
     console.error(error);
