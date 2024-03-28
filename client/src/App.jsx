@@ -1,9 +1,11 @@
+import { lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import ProtectedLayout from "./components/ProtectedLayout";
-import Dashboard from "./pages/Dashboard";
+const ProtectedLayout = lazy(() => import("./components/ProtectedLayout"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Loading = lazy(() => import("./pages/Plans/Loading"));
+const Success = lazy(() => import("./pages/Plans/Success"));
+
 import useTheme from "./hooks/useTheme";
-import Loading from "./pages/Plans/Loading";
-import Success from "./pages/Plans/Success";
 import { theme, ConfigProvider } from "antd";
 import { UsersProvider } from "./context/UsersContext";
 
